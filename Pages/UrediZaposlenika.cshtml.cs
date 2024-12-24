@@ -63,4 +63,19 @@ public class UrediZaposlenikaModel : PageModel
 
         return RedirectToPage("/Zaposlenici");
     }
+
+    public IActionResult OnPostObrisi()
+    {
+        string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
+        using (var connection = new Npgsql.NpgsqlConnection(connectionString))
+        {
+            connection.Open();
+            var command = new Npgsql.NpgsqlCommand("DELETE FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
+            command.Parameters.AddWithValue("@Id", Zaposlenik.Id);
+            command.ExecuteNonQuery();
+        }
+
+        return RedirectToPage("/Zaposlenici");
+    }
+
 }

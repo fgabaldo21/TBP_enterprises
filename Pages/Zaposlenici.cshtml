@@ -11,8 +11,7 @@
         <p>Prikaz popisa svih zaposlenika.</p>
     </div>
     <div>
-        <button type="button" class="btn btn-red" onclick="deleteZaposlenik()">Obriši zaposlenika</button>
-        <button type="button" class="btn btn-yellow" onclick="editZaposlenik()">Uredi</button>
+        <button type="button" class="btn btn-blue" onclick="editZaposlenik()">Uredi</button>
         <a href="/DodajZaposlenika" class="btn btn-green">Dodaj</a>
     </div>
 </div>
@@ -79,17 +78,6 @@
             alert("Molimo označite zaposlenika kojeg želite urediti.");
         }
     }
-    function deleteZaposlenik() {
-        const selected = document.querySelector('input[name="selectedZaposlenik"]:checked');
-        if (selected) {
-            const zaposlenikId = selected.value;
-            if (confirm("Jeste li sigurni da želite obrisati ovog zaposlenika?")) {
-                window.location.href = `/Zaposlenici/Obrisi/${zaposlenikId}`;
-            }
-        } else {
-            alert("Molimo označite zaposlenika kojeg želite obrisati.");
-        }
-    }
 </script>
 
 <style>
@@ -150,22 +138,13 @@
             background-color: #218838;
         }
 
-    .btn-yellow {
-        background-color: #ffc107;
-        border: none;
-    }
-
-        .btn-yellow:hover {
-            background-color: #e0a800;
-        }
-
-    .btn-red {
-        background-color: #dc3545;
+    .btn-blue {
+        background-color: #007BFF;
         color: white;
         border: none;
     }
 
-        .btn-red:hover {
-            background-color: #c82333;
+        .btn-blue:hover {
+            background-color: #0056b3;
         }
 </style>

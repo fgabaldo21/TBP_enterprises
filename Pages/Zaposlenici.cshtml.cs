@@ -49,18 +49,4 @@ public class ZaposleniciModel : PageModel
             }
         }
     }
-
-    public IActionResult OnGetObrisi(int id)
-    {
-        string connectionString = "Host=localhost;Database=naziv_baze;Username=korisnik;Password=lozinka;";
-        using (var connection = new Npgsql.NpgsqlConnection(connectionString))
-        {
-            connection.Open();
-            var command = new Npgsql.NpgsqlCommand("DELETE FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
-            command.Parameters.AddWithValue("@Id", id);
-            command.ExecuteNonQuery();
-        }
-
-        return RedirectToPage("/Zaposlenici");
-    }
 }

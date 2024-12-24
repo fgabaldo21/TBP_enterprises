@@ -1,0 +1,110 @@
+﻿@page
+@model DodajZaposlenikaModel
+@{
+    ViewData["Title"] = "Dodavanje zaposlenika";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="ime">Ime:</label>
+            <input type="text" id="ime" name="Ime" required />
+        </div>
+        <div class="form-group">
+            <label for="prezime">Prezime:</label>
+            <input type="text" id="prezime" name="Prezime" required />
+        </div>
+        <div class="form-group">
+            <label for="pocetak">Početak Zaposlenja:</label>
+            <input type="date" id="pocetak" name="PocetakZaposlenja" required />
+        </div>
+        <div class="form-group">
+            <label for="zavrsetak">Završetak Zaposlenja:</label>
+            <input type="date" id="zavrsetak" name="ZavrsetakZaposlenja" />
+        </div>
+        <div class="form-group">
+            <label for="satnica">Satnica:</label>
+            <input type="number" id="satnica" name="Satnica" step="0.01" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Dodaj zaposlenika</button>
+            <a href="/Zaposlenici" class="btn btn-red">Odustani</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background: none;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+    .form-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .btn {
+        text-decoration: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .btn-green {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+
+        .btn-green:hover {
+            background-color: #218838;
+        }
+
+    .btn-red {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+
+        .btn-red:hover {
+            background-color: #c82333;
+        }
+</style>

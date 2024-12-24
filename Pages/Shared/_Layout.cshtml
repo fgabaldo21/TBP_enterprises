@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <title>@ViewData["Title"] - Moja Aplikacija</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <style>
+        html, body {
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        nav {
+            width: 250px;
+            background-color: #007BFF;
+            height: 100vh;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            color: white;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        nav ul li {
+            margin: 15px 0;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        nav ul li a:hover {
+            background-color: #0056b3;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/Index"><i class="fas fa-home"></i> Početna</a></li>
+            <li><a href="/Zaposlenici"><i class="fas fa-users"></i> Zaposlenici</a></li>
+        </ul>
+    </nav>
+    <main>
+        @RenderBody()
+    </main>
+</body>
+</html>

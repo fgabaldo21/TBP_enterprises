@@ -1,7 +1,7 @@
 ﻿@page
-@model DodajZaposlenikaModel
+@model TBP_enterprises.Pages.DodajProjektModel
 @{
-    ViewData["Title"] = "Dodavanje zaposlenika";
+    ViewData["Title"] = "Dodavanje projekta";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,28 +9,20 @@
 <div class="form-container">
     <form method="post">
         <div class="form-group">
-            <label for="ime">Ime:</label>
-            <input type="text" id="ime" name="Ime" required />
+            <label for="naziv">Naziv projekta:</label>
+            <input type="text" id="naziv" name="Naziv" required />
         </div>
         <div class="form-group">
-            <label for="prezime">Prezime:</label>
-            <input type="text" id="prezime" name="Prezime" required />
+            <label for="pocetak">Početak projekta:</label>
+            <input type="date" id="pocetak" name="Datum_pocetka" required />
         </div>
         <div class="form-group">
-            <label for="pocetak">Početak Zaposlenja:</label>
-            <input type="date" id="pocetak" name="PocetakZaposlenja" required />
-        </div>
-        <div class="form-group">
-            <label for="zavrsetak">Završetak Zaposlenja:</label>
-            <input type="date" id="zavrsetak" name="ZavrsetakZaposlenja" />
-        </div>
-        <div class="form-group">
-            <label for="satnica">Satnica:</label>
-            <input type="number" id="satnica" name="Satnica" step="0.01" required />
+            <label for="zavrsetak">Završetak projekta:</label>
+            <input type="date" id="zavrsetak" name="Datum_zavrsetka" />
         </div>
         <div class="form-buttons">
             <button type="submit" class="btn btn-green">Dodaj</button>
-            <a href="/Zaposlenici" class="btn btn-red">Odustani</a>
+            <a href="/Projekti" class="btn btn-red">Odustani</a>
         </div>
     </form>
 </div>

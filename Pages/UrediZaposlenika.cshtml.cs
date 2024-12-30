@@ -4,78 +4,81 @@ using System.Data.SqlClient;
 using System.Globalization;
 using TBP_enterprises.Models;
 
-public class UrediZaposlenikaModel : PageModel
+
+namespace TBP_enterprises.Pages
 {
-    [BindProperty]
-    public Zaposlenik Zaposlenik { get; set; }
-
-    public void OnGet(int id)
+    public class UrediZaposlenikaModel : PageModel
     {
-        string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
-        using (var connection = new Npgsql.NpgsqlConnection(connectionString))
-        {
-            connection.Open();
-            var command = new Npgsql.NpgsqlCommand("SELECT * FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
-            command.Parameters.AddWithValue("@Id", id);
+        [BindProperty]
+        public Zaposlenik Zaposlenik { get; set; }
 
-            using (var reader = command.ExecuteReader())
+        public void OnGet(int id)
+        {
+            string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
+            using (var connection = new Npgsql.NpgsqlConnection(connectionString))
             {
-                if (reader.Read())
+                connection.Open();
+                var command = new Npgsql.NpgsqlCommand("SELECT * FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
+                command.Parameters.AddWithValue("@Id", id);
+
+                using (var reader = command.ExecuteReader())
                 {
-                    Zaposlenik = new Zaposlenik
+                    if (reader.Read())
                     {
-                        Id = reader.GetInt32(0),
-                        Ime = reader.GetString(1),
-                        Prezime = reader.GetString(2),
-                        PocetakZaposlenja = reader.IsDBNull(3) ? null : reader.GetDateTime(3),
-                        ZavrsetakZaposlenja = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
-                        Satnica = reader.IsDBNull(5) ? 0 : reader.GetDecimal(5)
-                    };
+                        Zaposlenik = new Zaposlenik
+                        {
+                            Id = reader.GetInt32(0),
+                            Ime = reader.GetString(1),
+                            Prezime = reader.GetString(2),
+                            PocetakZaposlenja = reader.IsDBNull(3) ? null : reader.GetDateTime(3),
+                            ZavrsetakZaposlenja = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
+                            Satnica = reader.IsDBNull(5) ? 0 : reader.GetDecimal(5)
+                        };
+                    }
                 }
             }
         }
-    }
 
-    public IActionResult OnPost()
-    {
-        string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
-        using (var connection = new Npgsql.NpgsqlConnection(connectionString))
+        public IActionResult OnPost()
         {
-            connection.Open();
-            var command = new Npgsql.NpgsqlCommand(
-                "UPDATE Zaposlenici SET ime = @Ime, prezime = @Prezime, pocetak_zaposlenja = @PocetakZaposlenja, zavrsetak_zaposlenja = @ZavrsetakZaposlenja, satnica = @Satnica WHERE id_zaposlenik = @Id",
-                connection);
+            string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
+            using (var connection = new Npgsql.NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new Npgsql.NpgsqlCommand(
+                    "UPDATE Zaposlenici SET ime = @Ime, prezime = @Prezime, pocetak_zaposlenja = @PocetakZaposlenja, zavrsetak_zaposlenja = @ZavrsetakZaposlenja, satnica = @Satnica WHERE id_zaposlenik = @Id",
+                    connection);
 
-            command.Parameters.AddWithValue("@Ime", Zaposlenik.Ime);
-            command.Parameters.AddWithValue("@Prezime", Zaposlenik.Prezime);
-            command.Parameters.AddWithValue("@PocetakZaposlenja", Zaposlenik.PocetakZaposlenja);
-            command.Parameters.AddWithValue("@ZavrsetakZaposlenja", Zaposlenik.ZavrsetakZaposlenja ?? (object)DBNull.Value);
-            command.Parameters.AddWithValue(
-                "@Satnica",
-                string.IsNullOrWhiteSpace(Request.Form["Satnica"])
-                    ? (object)DBNull.Value
-                    : decimal.Parse(Request.Form["Satnica"].ToString().Replace(',', '.'), CultureInfo.InvariantCulture)
-            );
-            command.Parameters.AddWithValue("@Id", Zaposlenik.Id);
+                command.Parameters.AddWithValue("@Ime", Zaposlenik.Ime);
+                command.Parameters.AddWithValue("@Prezime", Zaposlenik.Prezime);
+                command.Parameters.AddWithValue("@PocetakZaposlenja", Zaposlenik.PocetakZaposlenja);
+                command.Parameters.AddWithValue("@ZavrsetakZaposlenja", Zaposlenik.ZavrsetakZaposlenja ?? (object)DBNull.Value);
+                command.Parameters.AddWithValue(
+                    "@Satnica",
+                    string.IsNullOrWhiteSpace(Request.Form["Satnica"])
+                        ? (object)DBNull.Value
+                        : decimal.Parse(Request.Form["Satnica"].ToString().Replace(',', '.'), CultureInfo.InvariantCulture)
+                );
+                command.Parameters.AddWithValue("@Id", Zaposlenik.Id);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
+            }
+
+            return RedirectToPage("/Zaposlenici");
         }
 
-        return RedirectToPage("/Zaposlenici");
-    }
-
-    public IActionResult OnPostObrisi()
-    {
-        string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
-        using (var connection = new Npgsql.NpgsqlConnection(connectionString))
+        public IActionResult OnPostObrisi()
         {
-            connection.Open();
-            var command = new Npgsql.NpgsqlCommand("DELETE FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
-            command.Parameters.AddWithValue("@Id", Zaposlenik.Id);
-            command.ExecuteNonQuery();
+            string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
+            using (var connection = new Npgsql.NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new Npgsql.NpgsqlCommand("DELETE FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
+                command.Parameters.AddWithValue("@Id", Zaposlenik.Id);
+                command.ExecuteNonQuery();
+            }
+
+            return RedirectToPage("/Zaposlenici");
         }
-
-        return RedirectToPage("/Zaposlenici");
     }
-
 }

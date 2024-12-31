@@ -1,0 +1,144 @@
+﻿@page
+@model TBP_enterprises.Pages.KlijentiModel
+@{
+    ViewData["Title"] = "Popis klijenata";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <p>Prikaz popisa svih klijenata.</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-blue" onclick="editKlijent()">Uredi</button>
+        <a href="/DodajKlijenta" class="btn btn-green">Dodaj</a>
+    </div>
+</div>
+
+<form id="zaposleniciForm">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Naziv</th>
+                <th>Kontakt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var klijent in Model.Klijenti)
+            {
+                <tr>
+                    <td><input type="radio" name="selectedKlijent" value="@klijent.Id" /></td>
+                    <td>@klijent.Id</td>
+                    <td>@klijent.Naziv_klijenta</td>
+                    <td>@klijent.Kontakt_email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="pagination">
+    @if (Model.TrenutnaStranica > 1)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica - 1)">Prethodna</a>
+    }
+    @for (int i = 1; i <= Model.UkupnoStranica; i++)
+    {
+        if (i == Model.TrenutnaStranica)
+        {
+            <span>@i</span>
+        }
+        else
+        {
+            <a href="?stranica=@i">@i</a>
+        }
+    }
+    @if (Model.TrenutnaStranica < Model.UkupnoStranica)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica + 1)">Sljedeća</a>
+    }
+</div>
+
+<script>
+    function editKlijent() {
+        const selected = document.querySelector('input[name="selectedKlijent"]:checked');
+        if (selected) {
+            const klijentId = selected.value;
+            window.location.href = `/UrediKlijenta/${klijentId}`;
+        } else {
+            alert("Molimo označite klijenta kojeg želite urediti.");
+        }
+    }
+</script>
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    table, th, td {
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f4f4f4;
+    }
+
+    .pagination {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+        .pagination a, .pagination span {
+            margin: 0 5px;
+            padding: 10px 15px;
+            text-decoration: none;
+            color: white;
+            background-color: #007BFF;
+            border-radius: 4px;
+        }
+
+        .pagination span {
+            background-color: #0056b3;
+        }
+
+        .pagination a:hover {
+            background-color: #0056b3;
+        }
+
+    .btn {
+        text-decoration: none;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+    .btn-green {
+        background-color: #28a745;
+    }
+
+        .btn-green:hover {
+            background-color: #218838;
+        }
+
+    .btn-blue {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+    }
+
+        .btn-blue:hover {
+            background-color: #0056b3;
+        }
+</style>

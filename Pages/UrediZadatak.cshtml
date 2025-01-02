@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model TBP_enterprises.Pages.UrediZadatakModel
+@{
+    ViewData["Title"] = "Uređivanje zadatka";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="naziv">Naziv zadatka:</label>
+            <input type="text" id="naziv" name="Naziv_zadatka" value="@Model.Zadatak.Naziv_zadatka" required />
+        </div>
+        <div class="form-group">
+            <label for="projekt">Projekt:</label>
+            <select id="projekt" name="Id_projekt" class="custom-dropdown">
+                @foreach (var projekt in Model.Projekti)
+                {
+                    <option value="@projekt.Id" selected="@(projekt.Id == Model.Zadatak.Id_projekt ? "selected" : null)">
+                        @projekt.Naziv
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="Id_status" class="custom-dropdown">
+                @foreach (var status in Model.Statusi)
+                {
+                    <option value="@status.Id_status" selected="@(status.Id_status == Model.Zadatak.Id_status ? "selected" : null)">
+                        @status.Naziv_status
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sati">Predviđeni sati:</label>
+            <input type="number" id="sati" name="Predvidjeni_sati" value="@Model.Zadatak.Predvidjeni_sati" step="0.01" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Spremi promjene</button>
+            <button type="submit" formaction="?handler=Obrisi" formmethod="post" class="btn btn-red">Obriši</button>
+            <a href="/Zaposlenici" class="btn btn-blue">Odustani</a>
+        </div>
+    </form>
+</div>

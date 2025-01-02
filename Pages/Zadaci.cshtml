@@ -12,7 +12,7 @@
     </div>
     <div>
         <button type="button" class="btn btn-blue" onclick="editZadatak()">Uredi</button>
-        <a href="/DodajProjekt" class="btn btn-green">Dodaj</a>
+        <a href="/DodajZadatak" class="btn btn-green">Dodaj</a>
     </div>
 </div>
 
@@ -67,7 +67,7 @@
 </div>
 
 <script>
-    function editzadatak() {
+    function editZadatak() {
         const selected = document.querySelector('input[name="selectedZadatak"]:checked');
         if (selected) {
             const zadatakId = selected.value;

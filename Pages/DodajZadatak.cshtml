@@ -1,0 +1,42 @@
+﻿@page
+@model TBP_enterprises.Pages.DodajZadatakModel
+@{
+    ViewData["Title"] = "Dodavanje zadatka";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="naziv">Naziv zadatka:</label>
+            <input type="text" id="naziv" name="Naziv_zadatka" required />
+        </div>
+        <div class="form-group">
+            <label for="id_projekt">Projekt:</label>
+            <select id="id_projekt" name="Id_projekt" class="custom-dropdown" required>
+                @foreach (var projekt in Model.Projekti)
+                {
+                    <option value="@projekt.Id">@projekt.Naziv</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="predvidjeni_sati">Predviđeni sati:</label>
+            <input type="number" id="predvidjeni_sati" name="Predvidjeni_sati" step="0.1" required />
+        </div>
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select id="status" name="Id_status" class="custom-dropdown" required>
+                @foreach (var status in Model.Statusi)
+                {
+                    <option value="@status.Id_status">@status.Naziv_status</option>
+                }
+            </select>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Dodaj</button>
+            <a href="/Zadaci" class="btn btn-red">Odustani</a>
+        </div>
+    </form>
+</div>

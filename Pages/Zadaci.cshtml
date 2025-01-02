@@ -1,4 +1,79 @@
 ﻿@page
 @model TBP_enterprises.Pages.ZadaciModel
 @{
+    ViewData["Title"] = "Popis zadataka";
 }
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <p>Prikaz popisa svih zadataka.</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-blue" onclick="editZadatak()">Uredi</button>
+        <a href="/DodajProjekt" class="btn btn-green">Dodaj</a>
+    </div>
+</div>
+
+<form id="zadaciForm">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Naziv zadatka</th>
+                <th>Projekt</th>
+                <th>Predviđeni sati</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var zadatak in Model.Zadaci)
+            {
+                <tr>
+                    <td><input type="radio" name="selectedZadatak" value="@zadatak.Id" /></td>
+                    <td>@zadatak.Id</td>
+                    <td>@zadatak.Naziv_zadatka</td>
+                    <td>@zadatak.Naziv_projekta</td>
+                    <td>@zadatak.Predvidjeni_sati</td>
+                    <td>@zadatak.Naziv_statusa</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="pagination">
+    @if (Model.TrenutnaStranica > 1)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica - 1)">Prethodna</a>
+    }
+    @for (int i = 1; i <= Model.UkupnoStranica; i++)
+    {
+        if (i == Model.TrenutnaStranica)
+        {
+            <span>@i</span>
+        }
+        else
+        {
+            <a href="?stranica=@i">@i</a>
+        }
+    }
+    @if (Model.TrenutnaStranica < Model.UkupnoStranica)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica + 1)">Sljedeća</a>
+    }
+</div>
+
+<script>
+    function editzadatak() {
+        const selected = document.querySelector('input[name="selectedZadatak"]:checked');
+        if (selected) {
+            const zadatakId = selected.value;
+            window.location.href = `/UrediZadatak/${zadatakId}`;
+        } else {
+            alert("Molimo označite zadatak koji želite urediti.");
+        }
+    }
+</script>

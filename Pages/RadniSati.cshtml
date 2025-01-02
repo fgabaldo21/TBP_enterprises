@@ -1,0 +1,81 @@
+﻿@page
+@model TBP_enterprises.Pages.RadniSatiModel
+@{
+    ViewData["Title"] = "Pregled radnih sati";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <p>Prikaz radnih sati.</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-blue" onclick="editRadniSati()">Uredi</button>
+        <a href="/DodajRadneSate" class="btn btn-green">Dodaj</a>
+    </div>
+</div>
+
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Zaposlenik</th>
+                <th>Zadatak</th>
+                <th>Datum</th>
+                <th>Odrađeni sati</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var radniSat in Model.RadniSati)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="selected_log" value="@radniSat.Id" />
+                    </td>
+                    <td>@radniSat.Id</td>
+                    <td>@radniSat.Zaposlenik_ime @radniSat.Zaposlenik_prezime</td>
+                    <td>@radniSat.Naziv_zadatka</td>
+                    <td>@radniSat.Datum.ToString("dd.MM.yyyy")</td>
+                    <td>@radniSat.Odradjeni_sati</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="pagination">
+    @if (Model.TrenutnaStranica > 1)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica - 1)">Prethodna</a>
+    }
+    @for (int i = 1; i <= Model.UkupnoStranica; i++)
+    {
+        if (i == Model.TrenutnaStranica)
+        {
+            <span>@i</span>
+        }
+        else
+        {
+            <a href="?stranica=@i">@i</a>
+        }
+    }
+    @if (Model.TrenutnaStranica < Model.UkupnoStranica)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica + 1)">Sljedeća</a>
+    }
+</div>
+
+<script>
+    function editRadniSati() {
+        const selected = document.querySelector('input[name="selected_log"]:checked');
+        if (selected) {
+            const log = selected.value;
+            window.location.href = `/UrediProjekt/${log}`;
+        } else {
+            alert("Molimo označite radne sate koje želite urediti.");
+        }
+    }
+</script>

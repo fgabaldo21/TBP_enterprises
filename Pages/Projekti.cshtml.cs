@@ -23,8 +23,8 @@ namespace TBP_enterprises.Pages
                 connection.Open();
 
                 var countCommand = new Npgsql.NpgsqlCommand("SELECT COUNT(*) FROM Projekti", connection);
-                int ukupnoZaposlenika = (int)(long)countCommand.ExecuteScalar();
-                UkupnoStranica = (int)Math.Ceiling((double)ukupnoZaposlenika / VelicinaStranice);
+                int ukupno = (int)(long)countCommand.ExecuteScalar();
+                UkupnoStranica = (int)Math.Ceiling((double)ukupno / VelicinaStranice);
 
                 var command = new Npgsql.NpgsqlCommand(
                     "SELECT * FROM Projekti ORDER BY id_projekt LIMIT @VelicinaStranice OFFSET @Offset",

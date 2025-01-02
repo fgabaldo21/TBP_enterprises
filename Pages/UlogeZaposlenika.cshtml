@@ -1,0 +1,75 @@
+﻿@page
+@model TBP_enterprises.Pages.UlogeZaposlenikaModel
+@{
+    ViewData["Title"] = "Uloge zaposlenika";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <p>Prikaz popisa svih uloga zaposlenika.</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-blue" onclick="editUloga()">Uredi</button>
+        <a href="/DodajZaposlenika" class="btn btn-green">Dodaj</a>
+    </div>
+</div>
+
+<form id="ulogeForm">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Zaposlenik</th>
+                <th>Uloga</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var uloga in Model.UlogeZaposlenika)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="selectedUloga" value="@uloga.zaposlenik_id-@uloga.uloga_id" />
+                    </td>
+                    <td>@uloga.Zaposlenik_ime @uloga.Zaposlenik_prezime</td>
+                    <td>@uloga.Uloga_naziv</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="pagination">
+    @if (Model.TrenutnaStranica > 1)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica - 1)">Prethodna</a>
+    }
+    @for (int i = 1; i <= Model.UkupnoStranica; i++)
+    {
+        if (i == Model.TrenutnaStranica)
+        {
+            <span>@i</span>
+        }
+        else
+        {
+            <a href="?stranica=@i">@i</a>
+        }
+    }
+    @if (Model.TrenutnaStranica < Model.UkupnoStranica)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica + 1)">Sljedeća</a>
+    }
+</div>
+
+<script>
+    function editUloga() {
+        const selected = document.querySelector('input[name="selectedUloga"]:checked');
+        if (selected) {
+            const [zaposlenikId, ulogaId] = selected.value.split('-');
+            window.location.href = `/UrediUlogu/${zaposlenikId}/${ulogaId}`;
+        } else {
+            alert("Molimo označite zaposlenika i ulogu koju želite urediti.");
+        }
+    }
+</script>

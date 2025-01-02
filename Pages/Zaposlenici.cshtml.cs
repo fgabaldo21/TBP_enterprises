@@ -23,8 +23,8 @@ public class ZaposleniciModel : PageModel
             connection.Open();
 
             var countCommand = new Npgsql.NpgsqlCommand("SELECT COUNT(*) FROM Zaposlenici", connection);
-            int ukupnoZaposlenika = (int)(long)countCommand.ExecuteScalar();
-            UkupnoStranica = (int)Math.Ceiling((double)ukupnoZaposlenika / VelicinaStranice);
+            int ukupno = (int)(long)countCommand.ExecuteScalar();
+            UkupnoStranica = (int)Math.Ceiling((double)ukupno / VelicinaStranice);
 
             var command = new Npgsql.NpgsqlCommand(
                 "SELECT * FROM Zaposlenici ORDER BY id_zaposlenik LIMIT @VelicinaStranice OFFSET @Offset",

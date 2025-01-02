@@ -1,0 +1,25 @@
+﻿@page "{id:int}"
+@model TBP_enterprises.Pages.UrediKlijentaModel
+@{
+    ViewData["Title"] = "Uređivanje klijenta";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="naziv">Naziv klijenta:</label>
+            <input type="text" id="naziv" name="Naziv_klijenta" value="@Model.Klijent.Naziv_klijenta" required />
+        </div>
+        <div class="form-group">
+            <label for="email">Kontakt e-mail:</label>
+            <input type="email" id="email" name="Kontakt_email" value="@Model.Klijent.Kontakt_email" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Spremi promjene</button>
+            <button type="submit" formaction="?handler=Obrisi" formmethod="post" class="btn btn-red">Obriši</button>
+            <a href="/Klijenti" class="btn btn-blue">Odustani</a>
+        </div>
+    </form>
+</div>

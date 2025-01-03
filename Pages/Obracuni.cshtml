@@ -1,0 +1,81 @@
+﻿@page
+@model TBP_enterprises.Pages.ObracuniModel
+@{
+    ViewData["Title"] = "Pregled obračuna";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <p>Prikaz popisa svih obračuna.</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-blue" onclick="editObracun()">Uredi</button>
+        <a href="/DodajObracun" class="btn btn-green">Dodaj</a>
+    </div>
+</div>
+
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Zaposlenik</th>
+                <th>Projekt</th>
+                <th>Datum obračuna</th>
+                <th>Ukupni trošak</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obracun in Model.Obracuni)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="selectedObracun" value="@obracun.Id" />
+                    </td>
+                    <td>@obracun.Id</td>
+                    <td>@obracun.Zaposlenik_ime @obracun.Zaposlenik_prezime</td>
+                    <td>@obracun.Projekt_naziv</td>
+                    <td>@obracun.Datum_obracuna.ToString("dd.MM.yyyy")</td>
+                    <td>@obracun.Ukupni_trosak.ToString("F2") EUR</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="pagination">
+    @if (Model.TrenutnaStranica > 1)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica - 1)">Prethodna</a>
+    }
+    @for (int i = 1; i <= Model.UkupnoStranica; i++)
+    {
+        if (i == Model.TrenutnaStranica)
+        {
+            <span>@i</span>
+        }
+        else
+        {
+            <a href="?stranica=@i">@i</a>
+        }
+    }
+    @if (Model.TrenutnaStranica < Model.UkupnoStranica)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica + 1)">Sljedeća</a>
+    }
+</div>
+
+<script>
+    function editObracun() {
+        const selected = document.querySelector('input[name="selectedObracun"]:checked');
+        if (selected) {
+            const obracunId = selected.value;
+            window.location.href = `/UrediObracun/${obracunId}`;
+        } else {
+            alert("Molimo označite obračun kojeg želite urediti.");
+        }
+    }
+</script>

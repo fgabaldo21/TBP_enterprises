@@ -1,0 +1,44 @@
+﻿@page
+@model TBP_enterprises.Pages.DodajObracunModel
+@{
+    ViewData["Title"] = "Dodaj obračun";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="zaposlenik">Zaposlenik:</label>
+            <select id="zaposlenik" name="Id_zaposlenik" class="custom-dropdown" required>
+                <option value="">Odaberite zaposlenika</option>
+                @foreach (var zaposlenik in Model.Zaposlenici)
+                {
+                    <option value="@zaposlenik.Id">@zaposlenik.Ime @zaposlenik.Prezime</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="projekt">Projekt:</label>
+            <select id="projekt" name="Id_projekt" class="custom-dropdown" required>
+                <option value="">Odaberite projekt</option>
+                @foreach (var projekt in Model.Projekti)
+                {
+                    <option value="@projekt.Id">@projekt.Naziv</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="datum_obracuna">Datum obračuna:</label>
+            <input type="date" id="datum_obracuna" name="Datum_obracuna" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+        </div>
+        <div class="form-group">
+            <label for="ukupni_trosak">Ukupni trošak:</label>
+            <input type="number" id="ukupni_trosak" name="Ukupni_trosak" step="0.01" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Dodaj</button>
+            <a href="/Obracuni" class="btn btn-red">Odustani</a>
+        </div>
+    </form>
+</div>

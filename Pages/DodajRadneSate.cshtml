@@ -1,0 +1,45 @@
+﻿@page
+@model TBP_enterprises.Pages.UnosRadnihSatiModel
+@{
+    ViewData["Title"] = "Unos radnih sati";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="zaposlenik">Zaposlenik:</label>
+            <select id="zaposlenik" name="Id_zaposlenik" class="custom-dropdown" required>
+                <option value="">Odaberite zaposlenika</option>
+                @foreach (var zaposlenik in Model.Zaposlenici)
+                {
+                    <option value="@zaposlenik.Id">@zaposlenik.Ime @zaposlenik.Prezime</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="zadatak">Zadatak:</label>
+            <select id="zadatak" name="Id_zadatak" class="custom-dropdown" required>
+                <option value="">Odaberite zadatak</option>
+                @foreach (var zadatak in Model.Zadaci)
+                {
+                    <option value="@zadatak.Id">@zadatak.Naziv_zadatka</option>
+                }
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="datum">Datum:</label>
+            <input type="date" id="datum" name="Datum" value="@DateTime.Now.ToString("yyyy-MM-dd")" required />
+        </div>
+        <div class="form-group">
+            <label for="odradjeni_sati">Odrađeni sati:</label>
+            <input type="number" id="odradjeni_sati" name="Odradjeni_sati" step="0.5" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Dodaj</button>
+            <a href="/Zadaci" class="btn btn-red">Odustani</a>
+        </div>
+    </form>
+</div>

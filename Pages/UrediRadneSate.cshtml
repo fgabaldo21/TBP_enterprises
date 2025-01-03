@@ -1,0 +1,47 @@
+﻿@page "{id:int}"
+@model TBP_enterprises.Pages.UrediRadneSateModel
+@{
+    ViewData["Title"] = "Uredi radne sate";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="form-container">
+    <form method="post">
+        <div class="form-group">
+            <label for="zaposlenik">Zaposlenik:</label>
+            <select id="zaposlenik" name="Id_zaposlenik" class="custom-dropdown" required>
+                @foreach (var zaposlenik in Model.Zaposlenici)
+                {
+                    <option value="@zaposlenik.Id" selected="@(zaposlenik.Id == Model.RadniSat.Id_zaposlenik ? "selected" : "")">
+                        @zaposlenik.Ime @zaposlenik.Prezime
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="zadatak">Zadatak:</label>
+            <select id="zadatak" name="Id_zadatak" class="custom-dropdown" required>
+                @foreach (var zadatak in Model.Zadaci)
+                {
+                    <option value="@zadatak.Id" selected="@(zadatak.Id == Model.RadniSat.Id_zadatak ? "selected" : "")">
+                        @zadatak.Naziv_zadatka
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="datum">Datum:</label>
+            <input type="date" id="datum" name="Datum" value="@Model.RadniSat.Datum.ToString("yyyy-MM-dd")" required />
+        </div>
+        <div class="form-group">
+            <label for="odradjeni_sati">Odrađeni sati:</label>
+            <input type="number" id="odradjeni_sati" name="Odradjeni_sati" value="@Model.RadniSat.Odradjeni_sati" step="0.5" required />
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="btn btn-green">Spremi promjene</button>
+            <button type="submit" formaction="?handler=Obrisi" formmethod="post" class="btn btn-red">Obriši</button>
+            <a href="/RadniSati" class="btn btn-blue">Odustani</a>
+        </div>
+    </form>
+</div>

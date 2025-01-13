@@ -17,6 +17,16 @@
             <input type="text" id="prezime" name="Prezime" required />
         </div>
         <div class="form-group">
+            <label for="uloga">Uloga:</label>
+            <select id="uloga" name="Id_uloga" class="custom-dropdown" required>
+                <option value="">Odaberite ulogu</option>
+                @foreach (var uloga in Model.Uloge)
+                {
+                    <option value="@uloga.Id">@uloga.Naziv_uloge</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
             <label for="pocetak">Početak Zaposlenja:</label>
             <input type="date" id="pocetak" name="PocetakZaposlenja" required />
         </div>

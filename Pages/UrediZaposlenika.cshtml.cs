@@ -11,6 +11,7 @@ namespace TBP_enterprises.Pages
     {
         [BindProperty]
         public Zaposlenik Zaposlenik { get; set; }
+        public List<Uloga> Uloge { get; set; } = new List<Uloga>();
 
         public void OnGet(int id)
         {
@@ -18,7 +19,13 @@ namespace TBP_enterprises.Pages
             using (var connection = new Npgsql.NpgsqlConnection(connectionString))
             {
                 connection.Open();
-                var command = new Npgsql.NpgsqlCommand("SELECT * FROM Zaposlenici WHERE id_zaposlenik = @Id", connection);
+                var command = new Npgsql.NpgsqlCommand(
+                    @"SELECT z.id_zaposlenik, z.ime, z.prezime, z.pocetak_zaposlenja, z.zavrsetak_zaposlenja,
+                             z.satnica, z.uloga, u.naziv AS naziv_uloge
+                      FROM Zaposlenici z
+                      LEFT JOIN Uloge u ON z.uloga = u.id_uloga
+                      WHERE z.id_zaposlenik = @Id",
+                    connection);
                 command.Parameters.AddWithValue("@Id", id);
 
                 using (var reader = command.ExecuteReader())
@@ -32,8 +39,23 @@ namespace TBP_enterprises.Pages
                             Prezime = reader.GetString(2),
                             PocetakZaposlenja = reader.IsDBNull(3) ? null : reader.GetDateTime(3),
                             ZavrsetakZaposlenja = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
-                            Satnica = reader.IsDBNull(5) ? 0 : reader.GetDecimal(5)
+                            Satnica = reader.IsDBNull(5) ? 0 : reader.GetDecimal(5),
+                            Id_uloga = reader.GetInt32(6),
+                            NazivUloge = reader.GetString(7)
                         };
+                    }
+                }
+
+                var ulogeCommand = new Npgsql.NpgsqlCommand("SELECT id_uloga, naziv FROM Uloge", connection);
+                using (var reader = ulogeCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Uloge.Add(new Uloga
+                        {
+                            Id = reader.GetInt32(0),
+                            Naziv_uloge = reader.GetString(1)
+                        });
                     }
                 }
             }
@@ -46,7 +68,10 @@ namespace TBP_enterprises.Pages
             {
                 connection.Open();
                 var command = new Npgsql.NpgsqlCommand(
-                    "UPDATE Zaposlenici SET ime = @Ime, prezime = @Prezime, pocetak_zaposlenja = @PocetakZaposlenja, zavrsetak_zaposlenja = @ZavrsetakZaposlenja, satnica = @Satnica WHERE id_zaposlenik = @Id",
+                    @"UPDATE Zaposlenici 
+                      SET ime = @Ime, prezime = @Prezime, pocetak_zaposlenja = @PocetakZaposlenja, 
+                          zavrsetak_zaposlenja = @ZavrsetakZaposlenja, satnica = @Satnica, id_uloga = @IdUloga
+                      WHERE id_zaposlenik = @Id",
                     connection);
 
                 command.Parameters.AddWithValue("@Ime", Zaposlenik.Ime);
@@ -59,6 +84,7 @@ namespace TBP_enterprises.Pages
                         ? (object)DBNull.Value
                         : decimal.Parse(Request.Form["Satnica"].ToString().Replace(',', '.'), CultureInfo.InvariantCulture)
                 );
+                command.Parameters.AddWithValue("@IdUloga", Zaposlenik.Id_uloga);
                 command.Parameters.AddWithValue("@Id", Zaposlenik.Id);
 
                 command.ExecuteNonQuery();

@@ -19,6 +19,17 @@
             <input type="text" id="prezime" name="Prezime" value="@Model.Zaposlenik.Prezime" required />
         </div>
         <div class="form-group">
+        <label for="uloga">Uloga:</label>
+            <select id="uloga" name="Zaposlenik.Id_uloga" class="custom-dropdown" required>
+                @foreach (var uloga in Model.Uloge)
+                {
+                    <option value="@uloga.Id" selected="@(uloga.Id == Model.Zaposlenik.Id_uloga ? "selected" : null)">
+                        @uloga.Naziv_uloge
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
             <label for="pocetak">Početak Zaposlenja:</label>
             <input type="date" id="pocetak" name="PocetakZaposlenja" value="@Model.Zaposlenik.PocetakZaposlenja?.ToString("yyyy-MM-dd")" required />
         </div>

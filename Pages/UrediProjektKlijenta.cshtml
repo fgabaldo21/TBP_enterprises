@@ -1,0 +1,30 @@
+﻿@page
+@model TBP_enterprises.Pages.UrediProjektKlijentaModel
+@{
+    ViewData["Title"] = "Uredi projekt klijenta";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label for="naziv_klijenta">Klijent:</label>
+        <span id="naziv_klijenta">@Model.ProjektKlijenta.Naziv_klijenta</span>
+    </div>
+    <div class="form-group">
+        <label for="id_projekt">Projekt:</label>
+        <select id="id_projekt" name="ProjektKlijenta.Id_projekt" class="custom-dropdown" required>
+            @foreach (var projekt in Model.Projekti)
+            {
+                <option value="@projekt.Id" selected="@(projekt.Id == Model.ProjektKlijenta.Id_projekt ? "selected" : "")">
+                    @projekt.Naziv
+                </option>
+            }
+        </select>
+    </div>
+    <input type="hidden" name="OriginalIdProjekt" value="@Model.OriginalIdProjekt" />
+    <div class="form-buttons">
+        <button type="submit" class="btn btn-green">Spremi</button>
+        <a href="/ProjektiKlijenata" class="btn btn-red">Odustani</a>
+    </div>
+</form>

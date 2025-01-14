@@ -1,0 +1,65 @@
+﻿@page
+@model TBP_enterprises.Pages.ProjektiKlijenataModel
+@{
+    ViewData["Title"] = "Projekti klijenata";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <p>Prikaz popisa svih zaposlenika.</p>
+    </div>
+    <div>
+        <button type="button" class="btn btn-blue" onclick="editPK()">Uredi</button>
+        <a href="/DodajProjektKlijenta" class="btn btn-green">Dodaj</a>
+    </div>
+</div>
+
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>Klijent</th>
+                <th>Projekt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var projektKlijenta in Model.ProjektiKlijenata)
+            {
+                <tr>
+                    <td>
+                        <input type="radio" name="odabir_projekta" value="@projektKlijenta.Id_klijent:@projektKlijenta.Id_projekt" />
+                    </td>
+                    <td>@projektKlijenta.Naziv_klijenta</td>
+                    <td>@projektKlijenta.Naziv_projekta</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+
+<div class="pagination">
+    @if (Model.TrenutnaStranica > 1)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica - 1)">Prethodna</a>
+    }
+    @if (Model.TrenutnaStranica < Model.UkupnoStranica)
+    {
+        <a href="?stranica=@(Model.TrenutnaStranica + 1)">Sljedeća</a>
+    }
+</div>
+
+<script>
+    function editPK() {
+        const selected = document.querySelector('input[name="odabir_projekta"]:checked');
+        if (selected) {
+            const [idKlijent, idProjekt] = selected.value.split(':');
+            const url = `/UrediProjektKlijenta?idKlijent=${idKlijent}&idProjekt=${idProjekt}`;
+            window.location.href = url;
+        } else {
+            alert("Molimo označite zaposlenika kojeg želite urediti.");
+        }
+    }
+</script>

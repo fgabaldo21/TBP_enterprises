@@ -35,6 +35,7 @@ namespace TBP_enterprises.Pages
                 {
                     if (reader.Read())
                     {
+                        OriginalIdProjekt = reader.GetInt32(2);
                         ProjektKlijenta = new ProjektKlijenta
                         {
                             Id_klijent = reader.GetInt32(0),
@@ -42,7 +43,6 @@ namespace TBP_enterprises.Pages
                             Id_projekt = reader.GetInt32(2),
                             Naziv_projekta = reader.GetString(3)
                         };
-                        OriginalIdProjekt = reader.GetInt32(2);
                     }
                 }
                 var projektiCommand = new NpgsqlCommand("SELECT id_projekt, naziv_projekta FROM Projekti", connection);
@@ -78,6 +78,10 @@ namespace TBP_enterprises.Pages
 
                 command.ExecuteNonQuery();
             }
+
+            Console.WriteLine($"OriginalIdProjekt: {OriginalIdProjekt}");
+            Console.WriteLine($"Novi IdProjekt: {ProjektKlijenta.Id_projekt}");
+            Console.WriteLine($"IdKlijent: {ProjektKlijenta.Id_klijent}");
 
             return RedirectToPage("/ProjektiKlijenata");
         }

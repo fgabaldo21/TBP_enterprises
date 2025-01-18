@@ -26,6 +26,7 @@
     <input type="hidden" name="OriginalIdProjekt" value="@Model.OriginalIdProjekt" />
     <div class="form-buttons">
         <button type="submit" class="btn btn-green">Spremi</button>
-        <a href="/ProjektiKlijenata" class="btn btn-red">Odustani</a>
+        <button type="submit" formaction="?handler=Obrisi" formmethod="post" class="btn btn-red">Obriši</button>
+        <a href="/ProjektiKlijenata" class="btn btn-blue">Odustani</a>
     </div>
 </form>

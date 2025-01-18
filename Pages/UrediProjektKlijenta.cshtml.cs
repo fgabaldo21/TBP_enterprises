@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Npgsql;
 using TBP_enterprises.Models;
 using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace TBP_enterprises.Pages
 {
@@ -79,9 +80,20 @@ namespace TBP_enterprises.Pages
                 command.ExecuteNonQuery();
             }
 
-            Console.WriteLine($"OriginalIdProjekt: {OriginalIdProjekt}");
-            Console.WriteLine($"Novi IdProjekt: {ProjektKlijenta.Id_projekt}");
-            Console.WriteLine($"IdKlijent: {ProjektKlijenta.Id_klijent}");
+            return RedirectToPage("/ProjektiKlijenata");
+        }
+
+        public IActionResult OnPostObrisi()
+        {
+            string connectionString = "Host=localhost;Database=tbp_enterprises;Username=postgres;Password=1234;";
+            using (var connection = new Npgsql.NpgsqlConnection(connectionString))
+            {
+                connection.Open();
+                var command = new Npgsql.NpgsqlCommand("DELETE FROM Projekti_klijenata WHERE klijent = @Id_klijent AND projekt = @OriginalIdProjekt", connection);
+                command.Parameters.AddWithValue("@Id_klijent", ProjektKlijenta.Id_klijent);
+                command.Parameters.AddWithValue("@OriginalIdProjekt", OriginalIdProjekt);
+                command.ExecuteNonQuery();
+            }
 
             return RedirectToPage("/ProjektiKlijenata");
         }
